@@ -92,8 +92,8 @@ tsl::elm::Element *MainGui::createUI() {
     auto tune_bass_slider = new ElmVolume("\uE13C", "Bass Boost", num_steps);
     tune_bass_slider->setProgress(tune_bass * num_steps);
     tune_bass_slider->setValueChangedListener([](u8 value){
-        const double bass = double(value) / double(num_steps);
-        tuneSetBass(bass / 2);
+        const double tune_bass = double(value) / double(num_steps);
+        tuneSetBass(tune_bass / 2);
     });
     list->addItem(tune_bass_slider);
 
