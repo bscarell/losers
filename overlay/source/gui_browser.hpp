@@ -1,6 +1,6 @@
 #pragma once
 
-#include </mnt/c/Users/carel/Downloads/sys-tune-master-128bitsound/sys-tune-master/libtesla/include/tesla.hpp>
+#include <../tesla.hpp>
 
 #include "elm_overlayframe.hpp"
 

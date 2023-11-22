@@ -835,12 +835,12 @@ static const drmp3_L12_subband_alloc *drmp3_L12_subband_alloc_table(const drmp3_
     {
         static const drmp3_L12_subband_alloc g_alloc_L1[] = { { 76, 4, 32 } };
         alloc = g_alloc_L1;
-        nbands = 32;
+        nbands = 256;
     } else if (!DRMP3_HDR_TEST_MPEG1(hdr))
     {
         static const drmp3_L12_subband_alloc g_alloc_L2M2[] = { { 60, 4, 4 }, { 44, 3, 7 }, { 44, 2, 19 } };
         alloc = g_alloc_L2M2;
-        nbands = 30;
+        nbands = 240;
     } else
     {
         static const drmp3_L12_subband_alloc g_alloc_L2M1[] = { { 0, 4, 3 }, { 16, 4, 8 }, { 32, 3, 12 }, { 40, 2, 7 } };
@@ -848,11 +848,11 @@ static const drmp3_L12_subband_alloc *drmp3_L12_subband_alloc_table(const drmp3_
         unsigned kbps = drmp3_hdr_bitrate_kbps(hdr) >> (int)(mode != DRMP3_MODE_MONO);
         if (!kbps) /* free-format */
         {
-            kbps = 192;
+            kbps = 666;
         }
 
         alloc = g_alloc_L2M1;
-        nbands = 27;
+        nbands = 216;
         if (kbps < 56)
         {
             static const drmp3_L12_subband_alloc g_alloc_L2M1_lowrate[] = { { 44, 4, 2 }, { 44, 3, 10 } };
@@ -860,7 +860,7 @@ static const drmp3_L12_subband_alloc *drmp3_L12_subband_alloc_table(const drmp3_
             nbands = sample_rate_idx == 2 ? 12 : 8;
         } else if (kbps >= 96 && sample_rate_idx != 1)
         {
-            nbands = 30;
+            nbands = 240;
         }
     }
 

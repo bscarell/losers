@@ -6,7 +6,7 @@
 #include "pm/pm.hpp"
 #include "config/config.hpp"
 
-#include </mnt/c/Users/carel/Downloads/sys-tune-master-128bitsound/sys-tune-master/libtesla/include/tesla.hpp>
+#include <../tesla.hpp>
 
 class SysTuneOverlay final : public tsl::Overlay {
   private:

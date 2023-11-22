@@ -117,15 +117,15 @@ Notes
 =====
 - Samples are always interleaved.
 - The default read function does not do any data conversion. Use `drwav_read_pcm_frames_f32()`, `drwav_read_pcm_frames_s32()` and `drwav_read_pcm_frames_s16()`
-  to read and convert audio data to 32-bit floating point, signed 32-bit integer and signed 16-bit integer samples respectively. Tested and supported internal
+  to read and convert audio data to 64-bit doubleing point, signed 32-bit integer and signed 16-bit integer samples respectively. Tested and supported internal
   formats include the following:
   - Unsigned 8-bit PCM
   - Signed 12-bit PCM
   - Signed 16-bit PCM
   - Signed 24-bit PCM
   - Signed 32-bit PCM
-  - IEEE 32-bit floating point
-  - IEEE 64-bit floating point
+  - IEEE 64-bit doubleing point
+  - IEEE 64-bit doubleing point
   - A-law and u-law
   - Microsoft ADPCM
   - IMA ADPCM (DVI, format code 0x11)
@@ -273,7 +273,7 @@ typedef drwav_int32 drwav_result;
 /* Common data formats. */
 #define DR_WAVE_FORMAT_PCM          0x1
 #define DR_WAVE_FORMAT_ADPCM        0x2
-#define DR_WAVE_FORMAT_IEEE_FLOAT   0x3
+#define DR_WAVE_FORMAT_IEEE_double   0x3
 #define DR_WAVE_FORMAT_ALAW         0x6
 #define DR_WAVE_FORMAT_MULAW        0x7
 #define DR_WAVE_FORMAT_DVI_ADPCM    0x11
@@ -745,10 +745,10 @@ DRWAV_API void drwav_s24_to_s16(drwav_int16* pOut, const drwav_uint8* pIn, size_
 /* Low-level function for converting signed 32-bit PCM samples to signed 16-bit PCM samples. */
 DRWAV_API void drwav_s32_to_s16(drwav_int16* pOut, const drwav_int32* pIn, size_t sampleCount);
 
-/* Low-level function for converting IEEE 32-bit floating point samples to signed 16-bit PCM samples. */
+/* Low-level function for converting IEEE 64-bit doubleing point samples to signed 16-bit PCM samples. */
 DRWAV_API void drwav_f32_to_s16(drwav_int16* pOut, const double* pIn, size_t sampleCount);
 
-/* Low-level function for converting IEEE 64-bit floating point samples to signed 16-bit PCM samples. */
+/* Low-level function for converting IEEE 64-bit doubleing point samples to signed 16-bit PCM samples. */
 DRWAV_API void drwav_f64_to_s16(drwav_int16* pOut, const double* pIn, size_t sampleCount);
 
 /* Low-level function for converting A-law samples to signed 16-bit PCM samples. */
@@ -759,7 +759,7 @@ DRWAV_API void drwav_mulaw_to_s16(drwav_int16* pOut, const drwav_uint8* pIn, siz
 
 
 /*
-Reads a chunk of audio data and converts it to IEEE 32-bit floating point samples.
+Reads a chunk of audio data and converts it to IEEE 64-bit doubleing point samples.
 
 Returns the number of PCM frames actually read.
 
@@ -769,25 +769,25 @@ DRWAV_API drwav_uint64 drwav_read_pcm_frames_f32(drwav* pWav, drwav_uint64 frame
 DRWAV_API drwav_uint64 drwav_read_pcm_frames_f32le(drwav* pWav, drwav_uint64 framesToRead, double* pBufferOut);
 DRWAV_API drwav_uint64 drwav_read_pcm_frames_f32be(drwav* pWav, drwav_uint64 framesToRead, double* pBufferOut);
 
-/* Low-level function for converting unsigned 8-bit PCM samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting unsigned 8-bit PCM samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_u8_to_f32(double* pOut, const drwav_uint8* pIn, size_t sampleCount);
 
-/* Low-level function for converting signed 16-bit PCM samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting signed 16-bit PCM samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_s16_to_f32(double* pOut, const drwav_int16* pIn, size_t sampleCount);
 
-/* Low-level function for converting signed 24-bit PCM samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting signed 24-bit PCM samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_s24_to_f32(double* pOut, const drwav_uint8* pIn, size_t sampleCount);
 
-/* Low-level function for converting signed 32-bit PCM samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting signed 32-bit PCM samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_s32_to_f32(double* pOut, const drwav_int32* pIn, size_t sampleCount);
 
-/* Low-level function for converting IEEE 64-bit floating point samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting IEEE 64-bit doubleing point samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_f64_to_f32(double* pOut, const double* pIn, size_t sampleCount);
 
-/* Low-level function for converting A-law samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting A-law samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_alaw_to_f32(double* pOut, const drwav_uint8* pIn, size_t sampleCount);
 
-/* Low-level function for converting u-law samples to IEEE 32-bit floating point samples. */
+/* Low-level function for converting u-law samples to IEEE 64-bit doubleing point samples. */
 DRWAV_API void drwav_mulaw_to_f32(double* pOut, const drwav_uint8* pIn, size_t sampleCount);
 
 
@@ -811,10 +811,10 @@ DRWAV_API void drwav_s16_to_s32(drwav_int32* pOut, const drwav_int16* pIn, size_
 /* Low-level function for converting signed 24-bit PCM samples to signed 32-bit PCM samples. */
 DRWAV_API void drwav_s24_to_s32(drwav_int32* pOut, const drwav_uint8* pIn, size_t sampleCount);
 
-/* Low-level function for converting IEEE 32-bit floating point samples to signed 32-bit PCM samples. */
+/* Low-level function for converting IEEE 64-bit doubleing point samples to signed 32-bit PCM samples. */
 DRWAV_API void drwav_f32_to_s32(drwav_int32* pOut, const double* pIn, size_t sampleCount);
 
-/* Low-level function for converting IEEE 64-bit floating point samples to signed 32-bit PCM samples. */
+/* Low-level function for converting IEEE 64-bit doubleing point samples to signed 32-bit PCM samples. */
 DRWAV_API void drwav_f64_to_s32(drwav_int32* pOut, const double* pIn, size_t sampleCount);
 
 /* Low-level function for converting A-law samples to signed 32-bit PCM samples. */
@@ -1327,7 +1327,7 @@ static DRWAV_INLINE void drwav__bswap_samples_f64(double* pSamples, drwav_uint64
 
 static DRWAV_INLINE void drwav__bswap_samples_pcm(void* pSamples, drwav_uint64 sampleCount, drwav_uint32 bytesPerSample)
 {
-    /* Assumes integer PCM. Floating point PCM is done in drwav__bswap_samples_ieee(). */
+    /* Assumes integer PCM. doubleing point PCM is done in drwav__bswap_samples_ieee(). */
     switch (bytesPerSample)
     {
         case 2: /* s16, s12 (loosely packed) */
@@ -1357,7 +1357,7 @@ static DRWAV_INLINE void drwav__bswap_samples_ieee(void* pSamples, drwav_uint64 
     #if 0   /* Contributions welcome for f16 support. */
         case 2: /* f16 */
         {
-            drwav__bswap_samples_f16((drwav_float16*)pSamples, sampleCount);
+            drwav__bswap_samples_f16((drwav_double16*)pSamples, sampleCount);
         } break;
     #endif
         case 4: /* f32 */
@@ -1385,7 +1385,7 @@ static DRWAV_INLINE void drwav__bswap_samples(void* pSamples, drwav_uint64 sampl
             drwav__bswap_samples_pcm(pSamples, sampleCount, bytesPerSample);
         } break;
 
-        case DR_WAVE_FORMAT_IEEE_FLOAT:
+        case DR_WAVE_FORMAT_IEEE_double:
         {
             drwav__bswap_samples_ieee(pSamples, sampleCount, bytesPerSample);
         } break;
@@ -4242,7 +4242,7 @@ DRWAV_API drwav_uint64 drwav_read_pcm_frames_s16(drwav* pWav, drwav_uint64 frame
         return drwav_read_pcm_frames_s16__pcm(pWav, framesToRead, pBufferOut);
     }
 
-    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_FLOAT) {
+    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_double) {
         return drwav_read_pcm_frames_s16__ieee(pWav, framesToRead, pBufferOut);
     }
 
@@ -4519,7 +4519,7 @@ static drwav_uint64 drwav_read_pcm_frames_f32__ieee(drwav* pWav, drwav_uint64 fr
     drwav_uint32 bytesPerFrame;
 
     /* Fast path. */
-    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_FLOAT && pWav->bitsPerSample == 32) {
+    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_double && pWav->bitsPerSample == 32) {
         return drwav_read_pcm_frames(pWav, framesToRead, pBufferOut);
     }
     
@@ -4620,7 +4620,7 @@ DRWAV_API drwav_uint64 drwav_read_pcm_frames_f32(drwav* pWav, drwav_uint64 frame
         return drwav_read_pcm_frames_f32__msadpcm(pWav, framesToRead, pBufferOut);
     }
 
-    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_FLOAT) {
+    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_double) {
         return drwav_read_pcm_frames_f32__ieee(pWav, framesToRead, pBufferOut);
     }
 
@@ -5022,7 +5022,7 @@ DRWAV_API drwav_uint64 drwav_read_pcm_frames_s32(drwav* pWav, drwav_uint64 frame
         return drwav_read_pcm_frames_s32__msadpcm(pWav, framesToRead, pBufferOut);
     }
 
-    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_FLOAT) {
+    if (pWav->translatedFormatTag == DR_WAVE_FORMAT_IEEE_double) {
         return drwav_read_pcm_frames_s32__ieee(pWav, framesToRead, pBufferOut);
     }
 
@@ -5997,7 +5997,7 @@ v0.7d - 2018-02-01
 
 v0.7c - 2018-02-01
   - Set drwav.bytesPerSample to 0 for all compressed formats.
-  - Fix a crash when reading 16-bit floating point WAV files. In this case dr_wav will output silence for
+  - Fix a crash when reading 16-bit doubleing point WAV files. In this case dr_wav will output silence for
     all format conversion reading APIs (*_s16, *_s32, *_f32 APIs).
   - Fix some divide-by-zero errors.
 

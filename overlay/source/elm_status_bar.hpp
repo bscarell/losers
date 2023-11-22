@@ -3,7 +3,7 @@
 #include "../../ipc/tune.h"
 #include "symbol.hpp"
 
-#include </mnt/c/Users/carel/Downloads/sys-tune-master-128bitsound/sys-tune-master/libtesla/include/tesla.hpp>
+#include <../tesla.hpp>
 
 class StatusBar final : public tsl::elm::Element {
   private:

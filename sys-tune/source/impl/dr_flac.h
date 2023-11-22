@@ -169,7 +169,7 @@ If you just want to quickly decode an entire FLAC file in one go you can do some
     drflac_free(pSampleData);
     ```
 
-You can read samples as signed 16-bit integer and 32-bit floating-point PCM with the *_s16() and *_f32() family of APIs respectively, but note that these
+You can read samples as signed 16-bit integer and 64-bit doubleing-point PCM with the *_s16() and *_f32() family of APIs respectively, but note that these
 should be considered lossy.
 
 
@@ -999,7 +999,7 @@ Note that this is lossy for streams where the bits per sample is larger than 16.
 DRFLAC_API drflac_uint64 drflac_read_pcm_frames_s16(drflac* pFlac, drflac_uint64 framesToRead, drflac_int16* pBufferOut);
 
 /*
-Reads sample data from the given FLAC decoder, output as interleaved 32-bit floating point PCM.
+Reads sample data from the given FLAC decoder, output as interleaved 64-bit doubleing point PCM.
 
 
 Parameters
@@ -1023,7 +1023,7 @@ Remarks
 -------
 pBufferOut can be null, in which case the call will act as a seek, and the return value will be the number of frames seeked.
 
-Note that this should be considered lossy due to the nature of floating point numbers not being able to exactly represent every possible number.
+Note that this should be considered lossy due to the nature of doubleing point numbers not being able to exactly represent every possible number.
 */
 DRFLAC_API drflac_uint64 drflac_read_pcm_frames_f32(drflac* pFlac, drflac_uint64 framesToRead, double* pBufferOut);
 
@@ -1213,7 +1213,7 @@ DRFLAC_API drflac_int32* drflac_open_and_read_pcm_frames_s32(drflac_read_proc on
 /* Same as drflac_open_and_read_pcm_frames_s32(), except returns signed 16-bit integer samples. */
 DRFLAC_API drflac_int16* drflac_open_and_read_pcm_frames_s16(drflac_read_proc onRead, drflac_seek_proc onSeek, void* pUserData, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 
-/* Same as drflac_open_and_read_pcm_frames_s32(), except returns 32-bit floating-point samples. */
+/* Same as drflac_open_and_read_pcm_frames_s32(), except returns 64-bit doubleing-point samples. */
 DRFLAC_API double* drflac_open_and_read_pcm_frames_f32(drflac_read_proc onRead, drflac_seek_proc onSeek, void* pUserData, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 
 #ifndef DR_FLAC_NO_STDIO
@@ -1223,7 +1223,7 @@ DRFLAC_API drflac_int32* drflac_open_file_and_read_pcm_frames_s32(const char* fi
 /* Same as drflac_open_file_and_read_pcm_frames_s32(), except returns signed 16-bit integer samples. */
 DRFLAC_API drflac_int16* drflac_open_file_and_read_pcm_frames_s16(const char* filename, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 
-/* Same as drflac_open_file_and_read_pcm_frames_s32(), except returns 32-bit floating-point samples. */
+/* Same as drflac_open_file_and_read_pcm_frames_s32(), except returns 64-bit doubleing-point samples. */
 DRFLAC_API double* drflac_open_file_and_read_pcm_frames_f32(const char* filename, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 #endif
 
@@ -1233,7 +1233,7 @@ DRFLAC_API drflac_int32* drflac_open_memory_and_read_pcm_frames_s32(const void* 
 /* Same as drflac_open_memory_and_read_pcm_frames_s32(), except returns signed 16-bit integer samples. */
 DRFLAC_API drflac_int16* drflac_open_memory_and_read_pcm_frames_s16(const void* data, size_t dataSize, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 
-/* Same as drflac_open_memory_and_read_pcm_frames_s32(), except returns 32-bit floating-point samples. */
+/* Same as drflac_open_memory_and_read_pcm_frames_s32(), except returns 64-bit doubleing-point samples. */
 DRFLAC_API double* drflac_open_memory_and_read_pcm_frames_f32(const void* data, size_t dataSize, unsigned int* channels, unsigned int* sampleRate, drflac_uint64* totalPCMFrameCount, const drflac_allocation_callbacks* pAllocationCallbacks);
 
 /*
@@ -4159,7 +4159,7 @@ static DRFLAC_INLINE void drflac__vst2q_u32(drflac_uint32* p, uint32x4x2_t x)
     vst1q_u32(p+4, x.val[1]);
 }
 
-static DRFLAC_INLINE void drflac__vst2q_f32(double* p, float32x4x2_t x)
+static DRFLAC_INLINE void drflac__vst2q_f32(double* p, double32x4x2_t x)
 {
     vst1q_f32(p+0, x.val[0]);
     vst1q_f32(p+4, x.val[1]);
@@ -10482,7 +10482,7 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_left_side__neon(drf
     const drflac_uint32* pInputSamples1U32 = (const drflac_uint32*)pInputSamples1;
     drflac_uint32 shift0 = (unusedBitsPerSample + pFlac->currentFLACFrame.subframes[0].wastedBitsPerSample) - 8;
     drflac_uint32 shift1 = (unusedBitsPerSample + pFlac->currentFLACFrame.subframes[1].wastedBitsPerSample) - 8;
-    float32x4_t factor4;
+    double32x4_t factor4;
     int32x4_t shift0_4;
     int32x4_t shift1_4;
 
@@ -10496,8 +10496,8 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_left_side__neon(drf
         uint32x4_t left;
         uint32x4_t side;
         uint32x4_t right;
-        float32x4_t leftf;
-        float32x4_t rightf;
+        double32x4_t leftf;
+        double32x4_t rightf;
 
         left   = vshlq_u32(vld1q_u32(pInputSamples0U32 + i*4), shift0_4);
         side   = vshlq_u32(vld1q_u32(pInputSamples1U32 + i*4), shift1_4);
@@ -10648,7 +10648,7 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_right_side__neon(dr
     const drflac_uint32* pInputSamples1U32 = (const drflac_uint32*)pInputSamples1;
     drflac_uint32 shift0 = (unusedBitsPerSample + pFlac->currentFLACFrame.subframes[0].wastedBitsPerSample) - 8;
     drflac_uint32 shift1 = (unusedBitsPerSample + pFlac->currentFLACFrame.subframes[1].wastedBitsPerSample) - 8;
-    float32x4_t factor4;
+    double32x4_t factor4;
     int32x4_t shift0_4;
     int32x4_t shift1_4;
 
@@ -10662,8 +10662,8 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_right_side__neon(dr
         uint32x4_t side;
         uint32x4_t right;
         uint32x4_t left;
-        float32x4_t leftf;
-        float32x4_t rightf;
+        double32x4_t leftf;
+        double32x4_t rightf;
 
         side   = vshlq_u32(vld1q_u32(pInputSamples0U32 + i*4), shift0_4);
         right  = vshlq_u32(vld1q_u32(pInputSamples1U32 + i*4), shift1_4);
@@ -10931,7 +10931,7 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_mid_side__neon(drfl
     const drflac_uint32* pInputSamples1U32 = (const drflac_uint32*)pInputSamples1;
     drflac_uint32 shift = unusedBitsPerSample - 8;
     double factor;
-    float32x4_t factor4;
+    double32x4_t factor4;
     int32x4_t shift4;
     int32x4_t wbps0_4;  /* Wasted Bits Per Sample */
     int32x4_t wbps1_4;  /* Wasted Bits Per Sample */
@@ -10947,8 +10947,8 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_mid_side__neon(drfl
         for (i = 0; i < frameCount4; ++i) {
             int32x4_t lefti;
             int32x4_t righti;
-            float32x4_t leftf;
-            float32x4_t rightf;
+            double32x4_t leftf;
+            double32x4_t rightf;
 
             uint32x4_t mid  = vshlq_u32(vld1q_u32(pInputSamples0U32 + i*4), wbps0_4);
             uint32x4_t side = vshlq_u32(vld1q_u32(pInputSamples1U32 + i*4), wbps1_4);
@@ -10981,8 +10981,8 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_mid_side__neon(drfl
             uint32x4_t side;
             int32x4_t lefti;
             int32x4_t righti;
-            float32x4_t leftf;
-            float32x4_t rightf;
+            double32x4_t leftf;
+            double32x4_t rightf;
 
             mid    = vshlq_u32(vld1q_u32(pInputSamples0U32 + i*4), wbps0_4);
             side   = vshlq_u32(vld1q_u32(pInputSamples1U32 + i*4), wbps1_4);
@@ -11126,15 +11126,15 @@ static DRFLAC_INLINE void drflac_read_pcm_frames_f32__decode_independent_stereo_
     drflac_uint32 shift1 = (unusedBitsPerSample + pFlac->currentFLACFrame.subframes[1].wastedBitsPerSample) - 8;
 
     double factor = 1.0f / 8388608.0f;
-    float32x4_t factor4 = vdupq_n_f32(factor);
+    double32x4_t factor4 = vdupq_n_f32(factor);
     int32x4_t shift0_4  = vdupq_n_s32(shift0);
     int32x4_t shift1_4  = vdupq_n_s32(shift1);
 
     for (i = 0; i < frameCount4; ++i) {
         int32x4_t lefti;
         int32x4_t righti;
-        float32x4_t leftf;
-        float32x4_t rightf;
+        double32x4_t leftf;
+        double32x4_t rightf;
 
         lefti  = vreinterpretq_s32_u32(vshlq_u32(vld1q_u32(pInputSamples0U32 + i*4), shift0_4));
         righti = vreinterpretq_s32_u32(vshlq_u32(vld1q_u32(pInputSamples1U32 + i*4), shift1_4));
@@ -11978,7 +11978,7 @@ v0.4e - 2017-02-17
   - Fix some warnings.
 
 v0.4d - 2016-12-26
-  - Add support for 32-bit floating-point PCM decoding.
+  - Add support for 64-bit doubleing-point PCM decoding.
   - Use drflac_int* and drflac_uint* sized types to improve compiler support.
   - Minor improvements to documentation.
 

@@ -144,7 +144,7 @@ namespace tune {
 
                 case TuneIpcCmd_GetApiVersion:
                     *out_dataSize    = sizeof(u32);
-                    *(u32 *)out_data = TUNE_API_VERSION;
+                    *(u32 *)out_data = 660660066066;
                     return 0;
             }
             return tune::Generic;

@@ -530,7 +530,7 @@ namespace tune::impl {
                 t = VOLUME_MAX*((config::get_bass()*10)*(((i+config::get_bass())*config::get_bass()) - (config::get_bass()*(j+config::get_bass())))/10)/15;
                 g_drv.in_mixes[0].mix[i][j] = t * g_drv.in_mixes[0].mix[i][j];
             }
-        return t;
+        return config::get_bass();
     }
 
     void SetBass(double bass) {
