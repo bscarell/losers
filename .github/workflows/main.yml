@@ -1,0 +1,9 @@
+on:
+  push:
+    branches:
+    - main
+    - release/*
+
+    run:
+    make clean wah dist
+    
